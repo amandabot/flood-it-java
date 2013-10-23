@@ -30,13 +30,13 @@ public class GameBoard extends JPanel {
     static {
         colors = new ArrayList<>();
 
-        //Basic color scheme
-        colors.add(Color.BLUE);
-        colors.add(Color.GREEN);
-        colors.add(Color.YELLOW);
-        colors.add(Color.RED);
-        colors.add(new Color(92, 20, 112));
-        colors.add(Color.MAGENTA);
+        //Black, white, gray, and blue color scheme
+        colors.add(Color.BLACK);
+         colors.add(Color.WHITE);
+         colors.add(Color.GRAY);
+         colors.add(Color.LIGHT_GRAY);
+         colors.add(Color.DARK_GRAY);
+         colors.add(Color.BLUE);
     }
     ;
     
