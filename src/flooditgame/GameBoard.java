@@ -25,20 +25,8 @@ public class GameBoard extends JPanel {
     private final int SQUARE_SIZE = 30; //Size in pixels of each square
     private final int BOARD_SIZE = NUM_OF_SQUARES * SQUARE_SIZE;
     private final Random random = new Random(); //Used in generating new boards
-    private final static List<Color> colors; //Used in generating new boards
-
-    static {
-        colors = new ArrayList<>();
-
-        //Black, white, gray, and blue color scheme
-        colors.add(Color.BLACK);
-         colors.add(Color.WHITE);
-         colors.add(Color.GRAY);
-         colors.add(Color.LIGHT_GRAY);
-         colors.add(Color.DARK_GRAY);
-         colors.add(Color.BLUE);
-    }
-    ;
+    private final static List<Color> colors = new ArrayList<>(); //Used in generating new boards
+    private final List<JButton> colorButtons = new ArrayList<>(); //References to game buttons. Used to change colors for new game
     
     private static final GameBoard INSTANCE = new GameBoard();
     /* Tracks the current color of each square */
@@ -76,6 +64,11 @@ public class GameBoard extends JPanel {
      * status flags
      */
     private void resetBoard() {
+        colors.clear();
+        for (int k = 0; k < 6; k++) {
+            colors.add(new Color(random.nextInt(256), random.nextInt(256), random.nextInt(256)));
+            colorButtons.get(k).setBackground(colors.get(k));
+        }
         for (int i = 0; i < NUM_OF_SQUARES; i++) {
             for (int j = 0; j < NUM_OF_SQUARES; j++) {
                 colorBoard[i][j] = random.nextInt(colors.size());
@@ -160,7 +153,8 @@ public class GameBoard extends JPanel {
 
         //Creates the buttons for changing the current fill color
         for (int i = 0; i < 6; i++) {
-            jpanel.add(createColorButtons(i));
+            colorButtons.add(createColorButtons(i));
+            jpanel.add(colorButtons.get(i));
         }
 
         //Creates the new game button
@@ -181,7 +175,7 @@ public class GameBoard extends JPanel {
      */
     private JButton createColorButtons(int index) {
         JButton jbutton = new JButton();
-        jbutton.setBackground(colors.get(index));
+        //jbutton.setBackground(colors.get(index));
         jbutton.setPreferredSize(new Dimension(SQUARE_SIZE, SQUARE_SIZE));
         jbutton.addActionListener(new ActionListener() {
             @Override
