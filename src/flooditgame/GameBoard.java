@@ -213,7 +213,7 @@ public class GameBoard extends JPanel {
                 for (int i = 0; i < NUM_OF_SQUARES; i++) {
                     for (int j = 0; j < NUM_OF_SQUARES; j++) {
                         g2.setColor(colors.get(colorBoard[i][j]));
-                        g.fillRect(i * SQUARE_SIZE, j * SQUARE_SIZE, SQUARE_SIZE, SQUARE_SIZE);
+                        g2.fillRect(i * SQUARE_SIZE, j * SQUARE_SIZE, SQUARE_SIZE, SQUARE_SIZE);
                     }
                 }
             }
