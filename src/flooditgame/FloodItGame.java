@@ -15,20 +15,22 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import javax.swing.JButton;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
-public class GameBoard extends JPanel {
+public class FloodItGame {
 
     private final int NUM_OF_SQUARES = 14; //Number of squares on the board
     private final int SQUARE_SIZE = 30; //Size in pixels of each square
     private final int BOARD_SIZE = NUM_OF_SQUARES * SQUARE_SIZE;
+    private final JPanel gameboard;
+    private final JFrame frame;
     private final Random random = new Random(); //Used in generating new boards
     private final static List<Color> colors = new ArrayList<>(); //Used in generating new boards
     private final List<JButton> colorButtons = new ArrayList<>(); //References to game buttons. Used to change colors for new game
-    
-    private static final GameBoard INSTANCE = new GameBoard();
+    private static final FloodItGame INSTANCE = new FloodItGame();
     /* Tracks the current color of each square */
     private int[][] colorBoard = new int[NUM_OF_SQUARES][NUM_OF_SQUARES];
     private JLabel turnsLabel;
@@ -39,24 +41,33 @@ public class GameBoard extends JPanel {
     private boolean shown = false;
 
     /**
-     * Creates a unique and single instance of the GameBoard.
+     * Creates a unique and single instance of the FloodItGame.
      *
-     * @return the {@code GameBoard} instance
+     * @return the {@code FloodItGame} instance
      */
-    public static GameBoard getInstance() {
+    public static FloodItGame getInstance() {
         return INSTANCE;
     }
 
     /**
-     * Constructor for GameBoard
+     * Constructor for FloodItGame
      */
-    private GameBoard() {
-        setBackground(Color.DARK_GRAY);
-        setPreferredSize(new Dimension(BOARD_SIZE, BOARD_SIZE + SQUARE_SIZE + 10));
-        setLayout(new BorderLayout());
-        add(createButtonPanel(), BorderLayout.NORTH);
+    private FloodItGame() {
+        gameboard = new JPanel();
+        gameboard.setBackground(Color.DARK_GRAY);
+        gameboard.setPreferredSize(new Dimension(BOARD_SIZE, BOARD_SIZE + SQUARE_SIZE + 10));
+        gameboard.setLayout(new BorderLayout());
+        gameboard.add(createButtonPanel(), BorderLayout.NORTH);
         resetBoard(); //Must precede createPaintBoard()
-        add(createPaintBoard(), BorderLayout.CENTER); //Must follow resetBoard
+        gameboard.add(createPaintBoard(), BorderLayout.CENTER); //Must follow resetBoard
+
+        frame = new JFrame("Flood It!");
+        frame.getContentPane().add(gameboard);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setResizable(false);
+        frame.pack();
+        frame.setLocationRelativeTo(null);
+        frame.setVisible(true);
     }
 
     /**
@@ -77,7 +88,7 @@ public class GameBoard extends JPanel {
         numOfTurns = 0;
         turnsLabel.setText("Turns 0/25");
         shown = false;
-        repaint();
+        gameboard.repaint();
     }
 
     /**
@@ -127,14 +138,14 @@ public class GameBoard extends JPanel {
             }
         }
         if (flag) {
-            JOptionPane.showMessageDialog(this, "You Win!", "", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(frame, "You Win!", "", JOptionPane.INFORMATION_MESSAGE);
             shown = true;
             return;
         }
 
         //Checks for a loss
         if (numOfTurns > 24) {
-            JOptionPane.showMessageDialog(this, "You Lose!", "", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(frame, "You Lose!", "", JOptionPane.INFORMATION_MESSAGE);
             shown = true;
         }
     }
@@ -191,7 +202,7 @@ public class GameBoard extends JPanel {
                 //Checks that the clicked button is not the same color as (0,0)
                 if (fillColor != currentColor) {
                     floodFill(0, 0, currentColor, fillColor);
-                    repaint();
+                    gameboard.repaint();
                     checkForWin();
                 }
             }
