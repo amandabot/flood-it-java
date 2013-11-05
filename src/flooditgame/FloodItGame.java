@@ -72,7 +72,7 @@ public class FloodItGame {
             }
         }
         numOfTurns = 0;
-        turnsLabel.setText("Turns 0/25");
+        turnsLabel.setText(String.format("Turns %02d/25", 0));
         shown = false;
         gameboard.repaint();
     }
@@ -110,7 +110,7 @@ public class FloodItGame {
      */
     private void checkForWin() {
         numOfTurns += 1;
-        turnsLabel.setText("Turns " + numOfTurns + "/25");
+        turnsLabel.setText(String.format("Turns %02d/25", numOfTurns));
 
         //Checks for a win
         int temp = colorBoard[0][0];
@@ -145,7 +145,7 @@ public class FloodItGame {
         JPanel jpanel = new JPanel();
         jpanel.setPreferredSize(new Dimension(BOARD_SIZE, SQUARE_SIZE + 10));
         jpanel.setBackground(Color.LIGHT_GRAY);
-        turnsLabel = new JLabel("Turns 0/25");
+        turnsLabel = new JLabel(String.format("Turns %02d/25", 0));
         jpanel.add(turnsLabel);
 
         //Creates the buttons for changing the current fill color
