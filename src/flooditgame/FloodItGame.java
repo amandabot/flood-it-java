@@ -25,8 +25,8 @@ public class FloodItGame {
     private final int NUM_OF_SQUARES = 14; //Number of squares on the board
     private final int SQUARE_SIZE = 30; //Size in pixels of each square
     private final int BOARD_SIZE = NUM_OF_SQUARES * SQUARE_SIZE;
-    private final JPanel gameboard;
-    private final JFrame frame;
+    private JPanel gameboard;
+    private JFrame frame;
     private final Random random = new Random(); //Used in generating new boards
     private final static List<Color> colors = new ArrayList<>(); //Used in generating new boards
     private final List<JButton> colorButtons = new ArrayList<>(); //References to game buttons. Used to change colors for new game
@@ -41,33 +41,19 @@ public class FloodItGame {
     private boolean shown = false;
 
     /**
+     * Constructor for FloodItGame
+     */
+    private FloodItGame() {
+        createAndShowFrame();
+    }
+
+    /**
      * Creates a unique and single instance of the FloodItGame.
      *
      * @return the {@code FloodItGame} instance
      */
     public static FloodItGame getInstance() {
         return INSTANCE;
-    }
-
-    /**
-     * Constructor for FloodItGame
-     */
-    private FloodItGame() {
-        gameboard = new JPanel();
-        gameboard.setBackground(Color.DARK_GRAY);
-        gameboard.setPreferredSize(new Dimension(BOARD_SIZE, BOARD_SIZE + SQUARE_SIZE + 10));
-        gameboard.setLayout(new BorderLayout());
-        gameboard.add(createButtonPanel(), BorderLayout.NORTH);
-        resetBoard(); //Must precede createPaintBoard()
-        gameboard.add(createPaintBoard(), BorderLayout.CENTER); //Must follow resetBoard
-
-        frame = new JFrame("Flood It!");
-        frame.getContentPane().add(gameboard);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setResizable(false);
-        frame.pack();
-        frame.setLocationRelativeTo(null);
-        frame.setVisible(true);
     }
 
     /**
@@ -231,5 +217,26 @@ public class FloodItGame {
         };
         jpanel.setPreferredSize(new Dimension(BOARD_SIZE, BOARD_SIZE));
         return jpanel;
+    }
+
+    private JPanel createGameBoard() {
+        gameboard = new JPanel();
+        gameboard.setBackground(Color.DARK_GRAY);
+        gameboard.setPreferredSize(new Dimension(BOARD_SIZE, BOARD_SIZE + SQUARE_SIZE + 10));
+        gameboard.setLayout(new BorderLayout());
+        gameboard.add(createButtonPanel(), BorderLayout.NORTH);
+        resetBoard(); //Must precede createPaintBoard()
+        gameboard.add(createPaintBoard(), BorderLayout.CENTER); //Must follow resetBoard
+        return gameboard;
+    }
+
+    private void createAndShowFrame() {
+        frame = new JFrame("Flood It!");
+        frame.add(createGameBoard());
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setResizable(false);
+        frame.pack();
+        frame.setLocationRelativeTo(null);
+        frame.setVisible(true);
     }
 }
