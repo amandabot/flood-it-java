@@ -32,7 +32,7 @@ public class FloodItGame {
     private final List<JButton> colorButtons = new ArrayList<>(); //References to game buttons. Used to change colors for new game
     private static final FloodItGame INSTANCE = new FloodItGame();
     /* Tracks the current color of each square */
-    private int[][] colorBoard = new int[NUM_OF_SQUARES][NUM_OF_SQUARES];
+    private final int[][] colorBoard = new int[NUM_OF_SQUARES][NUM_OF_SQUARES];
     private JLabel turnsLabel;
     private int numOfTurns;
     private Color currentColor; //Current color of the square at (0, 0)
@@ -219,6 +219,11 @@ public class FloodItGame {
         return jpanel;
     }
 
+    /**
+     * Creates the {@code JPanel} which displays the game board and controls.
+     *
+     * @return the game board
+     */
     private JPanel createGameBoard() {
         gameboard = new JPanel();
         gameboard.setBackground(Color.DARK_GRAY);
@@ -230,6 +235,9 @@ public class FloodItGame {
         return gameboard;
     }
 
+    /**
+     * Creates and shows the frame in which the game plays.
+     */
     private void createAndShowFrame() {
         frame = new JFrame("Flood It!");
         frame.add(createGameBoard());
